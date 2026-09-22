@@ -1,13 +1,13 @@
 name: CI/CD # só o nome pra identificar a ação 
 
-#roda sempre quando alguém faz push ou abre um PR na branch main
+#roda sempre quando alguém faz push ou abre um PR na branch develop
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
