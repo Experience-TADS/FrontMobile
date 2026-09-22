@@ -4,8 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Expo Pipeline Test 🚀</Text>
-      <Text style={styles.subtitle}>Pipeline rodando com sucesso!</Text>
+      <Text style={styles.title}>Testando PR configurado🚀</Text>
+      <Text style={styles.subtitle}>Pipeline rodando com sucesso! ✅</Text>
       <StatusBar style="auto" />
     </View>
   );
