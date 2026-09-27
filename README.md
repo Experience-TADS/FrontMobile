@@ -32,12 +32,15 @@ verify-email/
 ## Como funciona
 
 1. `POST /api/auth/send-code` recebe um e-mail, gera um código de seis dígitos e envia o código por SMTP.
+   
 <img width="1434" height="328" alt="image" src="https://github.com/user-attachments/assets/64056705-a9f8-4f41-8358-6396b288fe15" />
 
 2. O usuário informa o código recebido.
+   
 <img width="783" height="357" alt="image" src="https://github.com/user-attachments/assets/a49874b4-9732-409c-ba21-7ad5799d5464" />
 
 3. `POST /api/auth/verify-code` recebe o e-mail e o código informado e verifica se ele está correto.
+   
 <img width="1378" height="343" alt="image" src="https://github.com/user-attachments/assets/65a7a4d0-0652-46a7-bad3-caff2c3687da" />
 
 
