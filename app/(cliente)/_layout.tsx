@@ -1,20 +1,16 @@
 import { Tabs } from 'expo-router';
 import { Colors } from '@/constants/theme';
-import { View } from 'react-native';
+import { HomeIcon } from '@/components/icons/HomeIcon';
+import { GridIcon } from '@/components/icons/GridIcon';
+import { ReceiptIcon } from '@/components/icons/ReceiptIcon';
+import { CalendarIcon } from '@/components/icons/CalendarIcon';
+import { UserIcon } from '@/components/icons/UserIcon';
 
-// Ícones placeholder — substituir por componentes SVG reais quando implementar as telas
-function TabIcon({ focused }: { focused: boolean }) {
-  return (
-    <View
-      style={{
-        width: 6,
-        height: 6,
-        borderRadius: 3,
-        backgroundColor: focused ? Colors.red : Colors.muted,
-        marginTop: 2,
-      }}
-    />
-  );
+const iconSize = 22;
+
+function tabIcon(Icon: React.FC<{ size?: number; color?: string }>) {
+  return ({ focused }: { focused: boolean }) =>
+    <Icon size={iconSize} color={focused ? Colors.red : Colors.muted} />;
 }
 
 export default function ClienteLayout() {
@@ -39,35 +35,35 @@ export default function ClienteLayout() {
         name="dashboard"
         options={{
           title: 'Início',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} />,
+          tabBarIcon: tabIcon(HomeIcon),
         }}
       />
       <Tabs.Screen
         name="catalogo"
         options={{
           title: 'Catálogo',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} />,
+          tabBarIcon: tabIcon(GridIcon),
         }}
       />
       <Tabs.Screen
         name="meus-pedidos"
         options={{
           title: 'Pedidos',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} />,
+          tabBarIcon: tabIcon(ReceiptIcon),
         }}
       />
       <Tabs.Screen
         name="agendamentos"
         options={{
           title: 'Agenda',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} />,
+          tabBarIcon: tabIcon(CalendarIcon),
         }}
       />
       <Tabs.Screen
         name="perfil"
         options={{
           title: 'Perfil',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} />,
+          tabBarIcon: tabIcon(UserIcon),
         }}
       />
     </Tabs>
