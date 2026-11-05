@@ -32,7 +32,6 @@ export default function LoginScreen() {
       return;
     }
     setEmailError('');
-    // Navegar para o dashboard do cliente
     router.replace('/(cliente)/dashboard');
   }
 
@@ -47,14 +46,9 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps="handled"
         bounces={false}
       >
-        {/* ── Hero lateral / topo ── */}
         <View style={styles.hero}>
           <HeroBackground />
-
-          {/* sobreposição escura */}
           <View style={styles.heroOverlay} />
-
-          {/* conteúdo do hero */}
           <View style={[styles.heroContent, { paddingTop: insets.top + 32 }]}>
             <Text style={styles.heroTitle}>Toyota Experience</Text>
             <Text style={styles.heroSub}>
@@ -63,7 +57,6 @@ export default function LoginScreen() {
           </View>
         </View>
 
-        {/* ── Formulário ── */}
         <View
           style={[
             styles.form,
@@ -71,13 +64,11 @@ export default function LoginScreen() {
           ]}
         >
           <View style={styles.formInner}>
-            {/* Cabeçalho */}
             <View style={styles.formHeader}>
               <Text style={styles.formTitle}>Bem-vindo</Text>
               <Text style={styles.formSub}>Faça login para continuar</Text>
             </View>
 
-            {/* Campo e-mail */}
             <View style={styles.field}>
               <Text style={styles.label}>E-mail</Text>
               <TextInput
@@ -99,7 +90,6 @@ export default function LoginScreen() {
               ) : null}
             </View>
 
-            {/* Campo senha */}
             <View style={styles.field}>
               <Text style={styles.label}>Senha</Text>
               <View style={styles.pwWrapper}>
@@ -115,9 +105,7 @@ export default function LoginScreen() {
                 <Pressable
                   style={styles.eyeBtn}
                   onPress={() => setShowPassword((v) => !v)}
-                  accessibilityLabel={
-                    showPassword ? 'Ocultar senha' : 'Mostrar senha'
-                  }
+                  accessibilityLabel={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                 >
                   {showPassword ? (
                     <EyeOffIcon size={18} color={Colors.muted} />
@@ -128,7 +116,6 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            {/* Botão entrar */}
             <TouchableOpacity
               style={styles.btnPrimary}
               onPress={handleLogin}
@@ -137,7 +124,6 @@ export default function LoginScreen() {
               <Text style={styles.btnPrimaryText}>Entrar</Text>
             </TouchableOpacity>
 
-            {/* Link esqueci a senha */}
             <Text style={styles.registerText}>
               <Text
                 style={styles.registerLink}
@@ -158,14 +144,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.dark,
   },
-  scroll: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-  },
+  scroll: { flex: 1 },
+  scrollContent: { flexGrow: 1 },
 
-  // ── Hero ──
   hero: {
     minHeight: 260,
     position: 'relative',
@@ -200,7 +181,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  // ── Form ──
   form: {
     backgroundColor: Colors.surface,
     paddingHorizontal: 24,
@@ -212,9 +192,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     gap: 20,
   },
-  formHeader: {
-    gap: 4,
-  },
+  formHeader: { gap: 4 },
   formTitle: {
     fontFamily: Fonts.extraBold,
     fontSize: 28,
@@ -227,10 +205,7 @@ const styles = StyleSheet.create({
     color: Colors.muted,
   },
 
-  // ── Fields ──
-  field: {
-    gap: 6,
-  },
+  field: { gap: 6 },
   label: {
     fontFamily: Fonts.semiBold,
     fontSize: 13,
@@ -247,15 +222,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.ink,
   },
-  inputError: {
-    borderColor: Colors.err,
-  },
-  inputPw: {
-    paddingRight: 46,
-  },
-  pwWrapper: {
-    position: 'relative',
-  },
+  inputError: { borderColor: Colors.err },
+  inputPw: { paddingRight: 46 },
+  pwWrapper: { position: 'relative' },
   eyeBtn: {
     position: 'absolute',
     right: 6,
@@ -272,7 +241,6 @@ const styles = StyleSheet.create({
     color: Colors.err,
   },
 
-  // ── Botão primário ──
   btnPrimary: {
     height: 48,
     borderRadius: Radii.md,
@@ -286,7 +254,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
-  // ── Link esqueci senha ──
   registerText: {
     textAlign: 'center',
     fontFamily: Fonts.regular,
@@ -297,5 +264,4 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.bold,
     color: Colors.red,
   },
-
 });

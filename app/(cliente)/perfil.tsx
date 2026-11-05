@@ -1,7 +1,3 @@
-/**
- * Perfil do Cliente
- * TODO: Implementar — ver HTML original: função cPerfil()
- */
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Fonts } from '@/constants/theme';
 

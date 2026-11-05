@@ -1,7 +1,3 @@
-/**
- * Meus Pedidos
- * TODO: Implementar — ver HTML original: função cPeds() / cPed()
- */
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Fonts } from '@/constants/theme';
 

@@ -37,12 +37,8 @@ export default function EsqueciSenhaScreen() {
   async function handleEnviar() {
     if (!validate()) return;
     setLoading(true);
-
-    // Simula chamada à API (substituir pelo endpoint real)
     await new Promise((r) => setTimeout(r, 800));
     setLoading(false);
-
-    // Passa o e-mail para a próxima tela via query param
     router.push({
       pathname: '/verificar-codigo',
       params: { email: email.trim() },
@@ -54,9 +50,7 @@ export default function EsqueciSenhaScreen() {
       style={styles.root}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      {/* Cabeçalho escuro */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
-        {/* Botão voltar */}
         <Pressable
           style={styles.backBtn}
           onPress={() => router.back()}
@@ -64,18 +58,15 @@ export default function EsqueciSenhaScreen() {
         >
           <Text style={styles.backArrow}>←</Text>
         </Pressable>
-
         <Text style={styles.headerTitle}>Toyota Experience</Text>
       </View>
 
-      {/* Conteúdo */}
       <View
         style={[
           styles.body,
           { paddingBottom: Math.max(insets.bottom + 32, 48) },
         ]}
       >
-        {/* Título */}
         <View style={styles.titleBlock}>
           <Text style={styles.title}>Esqueci minha senha</Text>
           <Text style={styles.subtitle}>
@@ -83,7 +74,6 @@ export default function EsqueciSenhaScreen() {
           </Text>
         </View>
 
-        {/* Campo e-mail */}
         <View style={styles.field}>
           <Text style={styles.label}>E-mail</Text>
           <TextInput
@@ -107,7 +97,6 @@ export default function EsqueciSenhaScreen() {
           ) : null}
         </View>
 
-        {/* Botão enviar */}
         <TouchableOpacity
           style={[styles.btnPrimary, loading && styles.btnDisabled]}
           onPress={handleEnviar}
@@ -119,7 +108,6 @@ export default function EsqueciSenhaScreen() {
           </Text>
         </TouchableOpacity>
 
-        {/* Voltar ao login */}
         <Text style={styles.backText}>
           Lembrou a senha?{' '}
           <Text style={styles.backLink} onPress={() => router.back()}>
@@ -136,8 +124,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.surface,
   },
-
-  // ── Cabeçalho ──
   header: {
     backgroundColor: Colors.dark,
     paddingHorizontal: 24,
@@ -167,8 +153,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: '#fff',
   },
-
-  // ── Corpo ──
   body: {
     flex: 1,
     paddingHorizontal: 24,
@@ -178,10 +162,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
-  titleBlock: {
-    gap: 8,
-    marginBottom: 4,
-  },
+  titleBlock: { gap: 8, marginBottom: 4 },
   title: {
     fontFamily: Fonts.extraBold,
     fontSize: 26,
@@ -194,11 +175,7 @@ const styles = StyleSheet.create({
     color: Colors.muted,
     lineHeight: 20,
   },
-
-  // ── Campo ──
-  field: {
-    gap: 6,
-  },
+  field: { gap: 6 },
   label: {
     fontFamily: Fonts.semiBold,
     fontSize: 13,
@@ -215,16 +192,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.ink,
   },
-  inputError: {
-    borderColor: Colors.err,
-  },
+  inputError: { borderColor: Colors.err },
   errorText: {
     fontFamily: Fonts.medium,
     fontSize: 12,
     color: Colors.err,
   },
-
-  // ── Botões ──
   btnPrimary: {
     height: 48,
     borderRadius: Radii.md,
@@ -233,9 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 4,
   },
-  btnDisabled: {
-    opacity: 0.6,
-  },
+  btnDisabled: { opacity: 0.6 },
   btnPrimaryText: {
     fontFamily: Fonts.bold,
     fontSize: 15,

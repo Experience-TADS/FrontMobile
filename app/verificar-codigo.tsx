@@ -29,7 +29,6 @@ export default function VerificarCodigoScreen() {
 
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
-  // Atualiza dígito e move foco
   const handleDigit = useCallback(
     (text: string, index: number) => {
       const digit = text.replace(/\D/g, '').slice(-1);
@@ -37,22 +36,20 @@ export default function VerificarCodigoScreen() {
       next[index] = digit;
       setDigits(next);
       if (codeError) setCodeError('');
-
       if (digit && index < CODE_LENGTH - 1) {
         inputRefs.current[index + 1]?.focus();
       }
     },
-    [digits, codeError]
+    [digits, codeError],
   );
 
-  // Backspace volta foco
   const handleKeyPress = useCallback(
     (e: NativeSyntheticEvent<TextInputKeyPressEventData>, index: number) => {
       if (e.nativeEvent.key === 'Backspace' && !digits[index] && index > 0) {
         inputRefs.current[index - 1]?.focus();
       }
     },
-    [digits]
+    [digits],
   );
 
   async function handleVerificar() {
@@ -62,26 +59,14 @@ export default function VerificarCodigoScreen() {
       return;
     }
     setLoading(true);
-
-    // Simula validação (substituir pelo endpoint real)
     await new Promise((r) => setTimeout(r, 900));
     setLoading(false);
-
-    // TODO: se o código for inválido, mostrar erro:
-    // setCodeError('Código inválido. Tente novamente.');
-    // return;
-
-    // Código válido → ir para o dashboard
     router.replace('/(cliente)/dashboard');
   }
 
   async function handleReenviar() {
     if (resendCooldown > 0) return;
-
-    // Simula reenvio
     await new Promise((r) => setTimeout(r, 500));
-
-    // Inicia cooldown de 60s
     setResendCooldown(60);
     const interval = setInterval(() => {
       setResendCooldown((prev) => {
@@ -103,7 +88,6 @@ export default function VerificarCodigoScreen() {
       style={styles.root}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      {/* Cabeçalho escuro */}
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <Pressable
           style={styles.backBtn}
@@ -112,18 +96,15 @@ export default function VerificarCodigoScreen() {
         >
           <Text style={styles.backArrow}>←</Text>
         </Pressable>
-
         <Text style={styles.headerTitle}>Toyota Experience</Text>
       </View>
 
-      {/* Conteúdo */}
       <View
         style={[
           styles.body,
           { paddingBottom: Math.max(insets.bottom + 32, 48) },
         ]}
       >
-        {/* Título */}
         <View style={styles.titleBlock}>
           <Text style={styles.title}>Verifique seu e-mail</Text>
           <Text style={styles.subtitle}>
@@ -132,14 +113,11 @@ export default function VerificarCodigoScreen() {
           </Text>
         </View>
 
-        {/* Inputs do código */}
         <View style={styles.codeRow}>
           {digits.map((digit, i) => (
             <TextInput
               key={i}
-              ref={(ref) => {
-                inputRefs.current[i] = ref;
-              }}
+              ref={(ref) => { inputRefs.current[i] = ref; }}
               style={[
                 styles.codeInput,
                 digit ? styles.codeInputFilled : null,
@@ -156,11 +134,8 @@ export default function VerificarCodigoScreen() {
             />
           ))}
         </View>
-        {codeError ? (
-          <Text style={styles.errorText}>{codeError}</Text>
-        ) : null}
+        {codeError ? <Text style={styles.errorText}>{codeError}</Text> : null}
 
-        {/* Botão verificar */}
         <TouchableOpacity
           style={[styles.btnPrimary, loading && styles.btnDisabled]}
           onPress={handleVerificar}
@@ -172,17 +147,12 @@ export default function VerificarCodigoScreen() {
           </Text>
         </TouchableOpacity>
 
-        {/* Reenviar */}
         <View style={styles.resendRow}>
           <Text style={styles.resendText}>Não recebeu? </Text>
           {resendCooldown > 0 ? (
-            <Text style={styles.resendCooldown}>
-              Reenviar em {resendCooldown}s
-            </Text>
+            <Text style={styles.resendCooldown}>Reenviar em {resendCooldown}s</Text>
           ) : (
-            <Text style={styles.resendLink} onPress={handleReenviar}>
-              Reenviar código
-            </Text>
+            <Text style={styles.resendLink} onPress={handleReenviar}>Reenviar código</Text>
           )}
         </View>
       </View>
@@ -191,12 +161,7 @@ export default function VerificarCodigoScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-  },
-
-  // ── Cabeçalho ──
+  root: { flex: 1, backgroundColor: Colors.surface },
   header: {
     backgroundColor: Colors.dark,
     paddingHorizontal: 24,
@@ -214,11 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backArrow: {
-    color: '#fff',
-    fontSize: 18,
-    lineHeight: 22,
-  },
+  backArrow: { color: '#fff', fontSize: 18, lineHeight: 22 },
   headerTitle: {
     fontFamily: Fonts.extraBold,
     fontSize: 18,
@@ -226,8 +187,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: '#fff',
   },
-
-  // ── Corpo ──
   body: {
     flex: 1,
     paddingHorizontal: 24,
@@ -237,10 +196,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
-  titleBlock: {
-    gap: 8,
-    marginBottom: 4,
-  },
+  titleBlock: { gap: 8, marginBottom: 4 },
   title: {
     fontFamily: Fonts.extraBold,
     fontSize: 26,
@@ -257,8 +213,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.semiBold,
     color: Colors.ink,
   },
-
-  // ── Código ──
   codeRow: {
     flexDirection: 'row',
     gap: 10,
@@ -280,9 +234,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.red,
     backgroundColor: Colors.redTint,
   },
-  codeInputError: {
-    borderColor: Colors.err,
-  },
+  codeInputError: { borderColor: Colors.err },
   errorText: {
     fontFamily: Fonts.medium,
     fontSize: 12,
@@ -290,8 +242,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: -8,
   },
-
-  // ── Botões ──
   btnPrimary: {
     height: 48,
     borderRadius: Radii.md,
@@ -300,16 +250,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 4,
   },
-  btnDisabled: {
-    opacity: 0.6,
-  },
+  btnDisabled: { opacity: 0.6 },
   btnPrimaryText: {
     fontFamily: Fonts.bold,
     fontSize: 15,
     color: '#fff',
   },
-
-  // ── Reenviar ──
   resendRow: {
     flexDirection: 'row',
     justifyContent: 'center',

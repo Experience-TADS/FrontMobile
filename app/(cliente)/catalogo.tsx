@@ -1,7 +1,3 @@
-/**
- * Catálogo de Produtos
- * TODO: Implementar — ver HTML original: função cCat()
- */
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Fonts } from '@/constants/theme';
 

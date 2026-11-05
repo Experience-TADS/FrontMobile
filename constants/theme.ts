@@ -23,7 +23,6 @@ export const Colors = {
 
 export const Fonts = {
   sans: 'PlusJakartaSans',
-  // weights via fontFamily variant strings
   regular: 'PlusJakartaSans_400Regular',
   medium: 'PlusJakartaSans_500Medium',
   semiBold: 'PlusJakartaSans_600SemiBold',

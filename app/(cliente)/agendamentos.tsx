@@ -1,7 +1,3 @@
-/**
- * Agendamentos
- * TODO: Implementar — ver HTML original: função cAg() / agCard()
- */
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Fonts } from '@/constants/theme';
 

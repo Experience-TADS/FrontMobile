@@ -34,18 +34,14 @@ export default function RootLayout() {
     <>
       <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false }}>
-        {/* ── Autenticação ── */}
         <Stack.Screen name="index" />
         <Stack.Screen name="esqueci-senha" />
         <Stack.Screen
           name="verificar-codigo"
           options={{
-            // Impede voltar ao código após autenticar
             gestureEnabled: false,
           }}
         />
-
-        {/* ── Área do cliente ── */}
         <Stack.Screen name="(cliente)" />
       </Stack>
     </>

@@ -230,6 +230,25 @@ td.num,th.num{text-align:right}
 .tipo{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:20px 12px;display:grid;gap:8px;justify-items:center;font-weight:700}
 .tipo.on{border-color:var(--red);background:var(--red-tint)}
 
+.ico{width:44px;height:44px;border-radius:12px;background:var(--red-tint);color:var(--red);display:grid;place-items:center;flex:none}
+.ico.big-i{width:72px;height:72px;border-radius:20px;background:var(--surface)}
+.pimg.sm{height:120px}
+.pts{font-family:var(--mono);font-weight:700}
+.mis{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+.mis:first-of-type{border-top:0}
+.voucher{border:1.5px dashed var(--red);border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.btn:disabled{opacity:.55;cursor:default}
+.qa-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.qa{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--surface);border:1px solid var(--cardline);border-radius:12px;box-shadow:var(--shadow);padding:20px 24px;color:var(--muted)}
+.qa b{color:var(--ink);font-size:16px}
+.qa:hover{border-color:var(--red)}
+@media (max-width:640px){.qa-grid{grid-template-columns:minmax(0,1fr)}}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 16px;font-weight:600;min-height:44px}
+.opt:hover:not(:disabled){border-color:var(--red)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.opt.bad{border-color:var(--err);background:color-mix(in srgb,var(--err) 12%,var(--surface))}
+.opt:disabled{cursor:default}
 @media (max-width:1200px){.week{grid-template-columns:minmax(0,1fr)}.day{min-height:0}}
 @media (max-width:1100px){.grid-2{grid-template-columns:minmax(0,1fr)}.pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -250,6 +269,7 @@ td.num,th.num{text-align:right}
   .pgrid{grid-template-columns:minmax(0,1fr)}
   .sum{grid-template-columns:minmax(0,1fr)}.sum .r{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px}
   .pitem{grid-template-columns:minmax(0,1fr)}
+  .mis{grid-template-columns:44px minmax(0,1fr)}.mis>:last-child{grid-column:1/-1;text-align:left;justify-items:start}
   .ph h1{font-size:24px}
   .metrics{gap:10px}.m .val{font-size:16px}
   .card{padding:20px}
@@ -300,7 +320,13 @@ x:'<path d="M6 6l12 12M18 6L6 18"/>',
 chev:'<path d="M9 6l6 6-6 6"/>',
 left:'<path d="M15 6l-6 6 6 6"/>',
 building:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/>',
-bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>'
+bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+gift:'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9M12 8c-2-4-6-4-6-1.5S10 8 12 8zm0 0c2-4 6-4 6-1.5S14 8 12 8z"/>',
+star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 20h8M10 17h4"/>',
+droplet:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/>',
+tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2"/>'
 };
 const ic=(n,s=20)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 const CAR=`<svg viewBox="0 0 200 80" class="car" aria-hidden="true"><path d="M8 60c0-9 8-13 22-16l20-17c6-5 12-7 22-7h40c10 0 19 4 27 12l18 10c14 3 26 7 26 18v6H8z" fill="currentColor" opacity=".16"/><path d="M58 31h34v14H46zM100 31h26l14 14h-40z" fill="currentColor" opacity=".1"/><circle cx="50" cy="62" r="13" fill="currentColor" opacity=".35"/><circle cx="150" cy="62" r="13" fill="currentColor" opacity=".35"/></svg>`;
@@ -374,7 +400,7 @@ const USR=[
 ];
 const ME={cliente:{n:'Ana Souza',e:'ana.souza@email.com',r:'CLIENTE'},vendedor:{n:'Carlos Vendedor Toyota',e:'carlos.vendedor@concessionaria.com.br',r:'VENDEDOR'},admin:{n:'Marina Alves',e:'marina.alves@concessionaria.com.br',r:'ADMIN'}};
 const AN=[
-{s:'catalogo-produtos',n:1203,avg:245,max:1180},
+{s:'recompensas',n:1120,avg:210,max:900},
 {s:'meus-pedidos',n:987,avg:180,max:940},
 {s:'rastreamento',n:2341,avg:312,max:1620},
 {s:'agendamentos',n:654,avg:128,max:610},
@@ -386,11 +412,11 @@ const nextAg=n=>AG.filter(a=>a.cliente===n&&a.status!=='CANCELADO'&&new Date(a.d
 const daysSince=i=>Math.max(1,Math.round((TODAY-new Date(i))/864e5));
 /* ===== navegação e shell ===== */
 const NAV={
-cliente:[['cliente-dashboard','Dashboard','home'],['cliente-catalogo','Catálogo','grid'],['cliente-meus-pedidos','Meus Pedidos','receipt'],['cliente-rastreamento-10001','Meus Veículos','car'],['cliente-agendamentos','Agendamentos','calendar'],['cliente-perfil','Perfil','user']],
+cliente:[['cliente-dashboard','Dashboard','home'],['cliente-meus-pedidos','Meus Pedidos','receipt'],['cliente-rastreamento-10001','Meus Veículos','car'],['cliente-recompensas','Recompensas','gift'],['cliente-perfil','Perfil','user']],
 vendedor:[['vendedor-dashboard','Dashboard','home'],['vendedor-pedidos','Pedidos','receipt'],['vendedor-agenda','Agenda','calendar'],['vendedor-veiculos','Veículos','car'],['vendedor-produtos','Produtos','box']],
 admin:[['admin-dashboard','Dashboard','home'],['admin-usuarios','Usuários','users'],['admin-pedidos','Pedidos','receipt'],['admin-veiculos','Veículos','car'],['admin-produtos','Produtos','box'],['admin-analytics','Analytics','chart']]};
 const MOB={
-cliente:[['cliente-dashboard','Início','home'],['cliente-catalogo','Catálogo','grid'],['cliente-meus-pedidos','Pedidos','receipt'],['cliente-agendamentos','Agenda','calendar'],['cliente-perfil','Perfil','user']],
+cliente:[['cliente-dashboard','Início','home'],['cliente-meus-pedidos','Pedidos','receipt'],['cliente-recompensas','Bônus','gift'],['cliente-perfil','Perfil','user']],
 vendedor:NAV.vendedor,
 admin:[['admin-dashboard','Início','home'],['admin-usuarios','Usuários','users'],['admin-pedidos','Pedidos','receipt'],['admin-veiculos','Veículos','car'],['admin-analytics','Analytics','chart']]};
 const isOn=(href,h)=>href===h||(href.startsWith('cliente-rastreamento')&&h.startsWith('cliente-rastreamento'))||(href==='cliente-meus-pedidos'&&h.startsWith('cliente-pedido-'));
@@ -463,10 +489,12 @@ function cDash(){
    <p class="muted" style="margin-top:14px">${st.msg}</p></section></div>
   <div class="stack">
    <section class="card"><div class="card-h"><h2>Próximo agendamento</h2></div>${ag?`<div style="display:grid;gap:8px"><div style="font-weight:800;font-size:18px">${fdShort(ag.dt)} · ${ft(ag.dt)}</div><div class="acts">${chip(TIPO[ag.tipo].l,TIPO[ag.tipo].c)}${chip(AST[ag.status].l,AST[ag.status].c,1)}</div><p class="muted">Vendedor: ${ag.vend}</p></div>`:'<p class="muted">Nenhum agendamento futuro.</p>'}</section>
+   ${recCard()}
    <section class="card"><div class="card-h"><h2>Pedidos e acompanhamento</h2></div>
     <a class="row" href="#cliente-meus-pedidos"><span>Pedidos ativos</span><span class="ct">1</span></a>
     <a class="row" href="#cliente-rastreamento-10001"><span>Veículos em fabricação</span><span class="ct">1</span></a>
-    <a class="row" href="#cliente-agendamentos"><span>Agendamentos pendentes</span><span class="ct">${AG.filter(a=>a.cliente==='Ana Souza'&&a.status==='PENDENTE').length}</span></a></section></div></div>
+    <div class="row"><span>Agendamentos pendentes</span><span class="ct">${AG.filter(a=>a.cliente==='Ana Souza'&&a.status==='PENDENTE').length}</span></div></section></div></div>
+  <div class="qa-grid" style="margin-top:24px;grid-template-columns:minmax(0,1fr)"><a class="qa" href="#cliente-agendamentos"><span class="ico">${ic('calendar',22)}</span><div><b>Meus agendamentos</b><div class="muted">Visitas, test drives e entregas</div></div>${ic('chev',18)}</a></div>
   <div class="banner" style="margin-top:24px"><h3>Seu Toyota está sendo fabricado com precisão.</h3><a href="#cliente-rastreamento-10001">Acompanhar fabricação ${ic('chev',16)}</a></div>`;
 }
 
@@ -476,7 +504,7 @@ function cCat(){
   const list=PROD.filter(p=>S.cat.f==='Todos'||p.modelo===S.cat.f),per=6,pages=Math.max(1,Math.ceil(list.length/per));
   if(S.cat.p>pages)S.cat.p=1;
   const sl=list.slice((S.cat.p-1)*per,S.cat.p*per);
-  return ph('Nossos Modelos','Conheça a linha Toyota disponível')+
+  return `<div class="crumb"><a href="#cliente-dashboard">‹ Página principal</a></div>`+ph('Nossos Modelos','Conheça a linha Toyota disponível')+
   `<div class="fchips" role="group" aria-label="Filtrar por modelo">${fs.map(f=>`<button class="fchip ${S.cat.f===f?'on':''}" data-a="catFilter" data-v="${f}">${f}</button>`).join('')}</div>
   <div class="pgrid">${sl.map(prodCard).join('')}</div>
   <div class="pager"><button data-a="catPage" data-v="${S.cat.p-1}" ${S.cat.p<=1?'disabled':''}>${ic('left',16)}</button>${Array.from({length:pages},(_,i)=>`<button class="${S.cat.p===i+1?'on':''}" data-a="catPage" data-v="${i+1}">${i+1}</button>`).join('')}<button data-a="catPage" data-v="${S.cat.p+1}" ${S.cat.p>=pages?'disabled':''}>${ic('chev',16)}</button></div>`;
@@ -505,14 +533,20 @@ function cRastr(ch){
   return ph(title,`${v.modelo} 2024 — ${v.cor} &nbsp;|&nbsp; Chassi: <span class="mono">${v.chassi}</span>`)+
   `<div class="stack"><section class="hero-st"><span class="k">Status atual</span><h2>${st.l}</h2><p style="color:#D4D4D8">${st.msg}</p><div class="tip"><b>Você sabia?</b> ${st.tip}</div></section>
   <section class="card"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>Etapa ${v.etapa+1} de 9</b><span class="mono muted">${pct}%</span></div><div class="bar"><i style="width:${pct}%"></i></div></section>
+  ${qzCard(v)}
   <section class="card"><div class="card-h"><h2>Linha do tempo</h2></div><div class="tl">${steps}</div></section>
   <section class="card"><div class="card-h"><h2>Histórico completo</h2></div><div class="tw"><table><thead><tr><th>Status</th><th>Data/Hora</th></tr></thead><tbody>${hist.map(([d,i])=>`<tr><td>${stChip(i)}</td><td class="mono">${fdt(d)}</td></tr>`).join('')}</tbody></table></div></section></div>`;
 }
 
 function agCard(a){return `<article class="ag"><div class="when">${fdShort(a.dt)} · ${ft(a.dt)}</div><div class="acts">${chip(TIPO[a.tipo].l,TIPO[a.tipo].c)}${chip(AST[a.status].l,AST[a.status].c,1)}</div><div class="muted">Vendedor: ${a.vend}</div>${a.obs?`<div>Observação: “${esc(a.obs)}”</div>`:''}</article>`}
+Object.assign(S,{agf:'Todos',agT:'VISITA'});
 function cAg(){
-  const l=AG.filter(a=>a.cliente==='Ana Souza').sort((a,b)=>b.dt.localeCompare(a.dt));
-  return ph('Meus Agendamentos',`${l.length} agendamentos`)+`<div class="stack" style="max-width:720px">${l.map(agCard).join('')}</div>`;
+  const all=AG.filter(a=>a.cliente==='Ana Souza').sort((a,b)=>b.dt.localeCompare(a.dt));
+  const l=all.filter(a=>S.agf==='Todos'||a.tipo===S.agf);
+  const fs=[['Todos','Todos'],...Object.entries(TIPO).map(([k,t])=>[k,t.l])];
+  return `<div class="crumb"><a href="#cliente-dashboard">‹ Página principal</a></div>`+ph('Meus Agendamentos',`${all.length} agendamentos`,`<button class="btn" data-a="agcNew">${ic('plus',16)} Novo agendamento</button>`)+
+  `<div class="fchips" role="group" aria-label="Filtrar por tipo">${fs.map(([k,t])=>`<button class="fchip ${S.agf===k?'on':''}" data-a="agcFilter" data-v="${k}">${t}</button>`).join('')}</div>
+  <div class="stack" style="max-width:720px">${l.map(agCard).join('')||'<p class="muted">Nenhum agendamento deste tipo.</p>'}</div>`;
 }
 
 function cPerfil(){
@@ -526,6 +560,139 @@ function cPerfil(){
   return ph('Perfil','')+`<div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><span class="av lg">${ini(me.n)}</span><div><h2 style="font-size:22px;font-weight:800">${me.n}</h2><p class="muted">${me.e}</p><div style="margin-top:6px">${chip('CLIENTE','--info')}</div></div></div>
   <div class="tabs" role="tablist">${[['dados','Dados Pessoais'],['end','Endereços'],['tel','Telefones']].map(([k,l])=>`<button class="${t===k?'on':''}" data-a="perTab" data-v="${k}">${l}</button>`).join('')}</div>${b}
   <div style="margin-top:32px"><button class="btn out" data-a="logout">${ic('logout',16)} Sair da conta</button></div>`;
+}
+/* ===== gamificação (somente cliente) ===== */
+const LV=[{n:'Bronze',min:0,c:'--st5'},{n:'Prata',min:1000,c:'--st0'},{n:'Ouro',min:2500,c:'--st3'},{n:'Diamante',min:5000,c:'--info'}];
+const EXT=[
+{d:'2026-09-02T10:00',t:'Missão: criar conta',v:100},
+{d:'2026-09-03T18:20',t:'Bônus de boas-vindas',v:200},
+{d:'2026-10-14T11:30',t:'Visita à concessionária',v:150},
+{d:'2026-10-15T10:45',t:'Missão: primeiro pedido',v:500},
+{d:'2026-10-30T14:10',t:'Missão: indicar um amigo',v:300},
+{d:'2026-10-31T16:00',t:'Resgate: Chaveiro Toyota',v:-200}
+];
+const MIS=[
+{id:1,t:'Criar conta',d:'Cadastro concluído no Toyota Experience',pts:100,st:'feita',ic:'user'},
+{id:2,t:'Fazer o primeiro pedido',d:'Seu Corolla XEi está em fabricação',pts:500,st:'feita',ic:'receipt'},
+{id:3,t:'Indicar um amigo',d:'Seu amigo concluiu o cadastro',pts:300,st:'feita',ic:'users'},
+{id:4,t:'Avaliar o atendimento',d:'Conte como foi sua visita à concessionária',pts:100,st:'pronta',ic:'star'},
+{id:5,t:'Acompanhar a fabricação por 7 dias',d:'Abra a linha do tempo do veículo em dias diferentes',pts:200,st:'aberta',pr:[5,7],ic:'car'},
+{id:6,t:'Comparecer ao test drive',d:'Agendado para 15/11 às 14:00',pts:150,st:'aberta',pr:[0,1],ic:'calendar'},
+{id:7,t:'Receber o seu Toyota',d:'Confirmação de entrega pela concessionária',pts:1000,st:'aberta',pr:[0,1],ic:'trophy'}
+];
+const REW=[
+{id:1,n:'Chaveiro Toyota',d:'Chaveiro metálico com a marca Toyota Experience.',c:300,k:'Brindes',ic:'key',lv:0},
+{id:2,n:'Boné Toyota Experience',d:'Boné bordado, tamanho único.',c:500,k:'Brindes',ic:'tag',lv:0},
+{id:3,n:'Garrafa térmica',d:'Garrafa de aço inox de 500 ml.',c:450,k:'Brindes',ic:'gift',lv:0},
+{id:4,n:'Lavagem completa',d:'Lavagem externa e aspiração interna na concessionária.',c:600,k:'Serviços',ic:'car',lv:0},
+{id:5,n:'Check-up de 20 itens',d:'Inspeção de itens de segurança e conforto.',c:700,k:'Serviços',ic:'gear',lv:0},
+{id:6,n:'Higienização do ar-condicionado',d:'Limpeza do sistema e troca do filtro de cabine.',c:1200,k:'Serviços',ic:'bolt',lv:0},
+{id:7,n:'Troca de óleo',d:'Troca do óleo do motor e do filtro de óleo.',c:1800,k:'Serviços',ic:'droplet',lv:1},
+{id:8,n:'Kit de tapetes',d:'Jogo de tapetes para o seu modelo.',c:900,k:'Acessórios',ic:'grid',lv:0},
+{id:9,n:'Revisão básica de cortesia',d:'Mão de obra da revisão periódica na concessionária.',c:3500,k:'Serviços',ic:'gear',lv:2}
+];
+Object.assign(S,{rt:'quiz',rf:'Todos',vou:[{code:'TX-8K2QD',n:'Chaveiro Toyota',dt:'2026-10-31T16:00',used:true}]});
+const fmtN=n=>n.toLocaleString('pt-BR');
+const saldo=()=>EXT.reduce((s,x)=>s+x.v,0);
+const lifetime=()=>EXT.filter(x=>x.v>0).reduce((s,x)=>s+x.v,0);
+const lvIdx=()=>{let i=0;LV.forEach((l,k)=>{if(lifetime()>=l.min)i=k});return i};
+const lvPct=()=>{const i=lvIdx(),a=LV[i],b=LV[i+1];return b?Math.min(100,Math.round((lifetime()-a.min)/(b.min-a.min)*100)):100};
+const lvNext=()=>{const b=LV[lvIdx()+1];return b?`Faltam ${fmtN(b.min-lifetime())} pts para o nível ${b.n}`:'Nível máximo alcançado'};
+
+function recCard(){const lv=LV[lvIdx()];
+  return `<section class="card"><div class="card-h"><h2>Recompensas</h2><a href="#cliente-recompensas" style="color:var(--red);font-weight:700">Ver bônus</a></div>
+  <div class="big">${fmtN(saldo())}<span class="muted" style="font-size:16px"> pts</span></div>
+  <div style="margin:8px 0 14px">${chip('Nível '+lv.n,lv.c,1)}</div><div class="bar"><i style="width:${lvPct()}%"></i></div><p class="sm-t" style="margin-top:8px">${lvNext()}</p></section>`}
+
+function cRec(){
+  const bal=saldo(),i=lvIdx(),lv=LV[i],t=S.rt;
+  const tabs=[['quiz','Quizzes'],['missoes','Missões'],['cat','Catálogo de bônus'],['vou','Meus resgates'],['ext','Extrato']];
+  let b='';
+  if(t==='quiz')b=qzTab();
+  if(t==='missoes')b=`<section class="card"><div class="card-h"><h2>Missões</h2><span class="sm-t">Complete para ganhar pontos</span></div>${MIS.map(m=>`<div class="mis"><span class="ico">${ic(m.ic,22)}</span><div style="min-width:0"><b>${m.t}</b><div class="muted">${m.d}</div>${m.st==='aberta'?`<div style="display:flex;gap:10px;align-items:center;margin-top:8px"><div class="bar" style="flex:1;max-width:220px"><i style="width:${m.pr[0]/m.pr[1]*100}%"></i></div><span class="sm-t mono">${m.pr[0]}/${m.pr[1]}</span></div>`:''}</div>
+   <div style="text-align:right;display:grid;gap:8px;justify-items:end"><span class="pts" style="color:var(--ok)">+${m.pts} pts</span>${m.st==='feita'?chip('Concluída','--ok',1):m.st==='pronta'?`<button class="btn sm" data-a="recClaim" data-id="${m.id}">Resgatar pontos</button>`:chip('Em andamento','--warn',1)}</div></div>`).join('')}</section>`;
+  if(t==='cat'){
+    const ks=['Todos','Serviços','Brindes','Acessórios'];
+    const list=REW.filter(r=>S.rf==='Todos'||r.k===S.rf);
+    b=`<div class="fchips" role="group" aria-label="Filtrar bônus">${ks.map(k=>`<button class="fchip ${S.rf===k?'on':''}" data-a="recFilter" data-v="${k}">${k}</button>`).join('')}</div>
+    <div class="pgrid">${list.map(r=>{const locked=i<r.lv,falta=r.c-bal;
+      return `<article class="pcard"><div class="pimg sm"><span class="ico big-i">${ic(r.ic,34)}</span></div><div class="pbody"><div>${chip(r.k,'--st0')}</div><h3>${r.n}</h3><span class="muted">${r.d}</span><div class="price">${fmtN(r.c)} pts</div>
+      ${locked?`<button class="btn ghost sm" disabled>Disponível no nível ${LV[r.lv].n}</button>`:falta>0?`<button class="btn ghost sm" disabled>Faltam ${fmtN(falta)} pts</button>`:`<button class="btn sm" data-a="recBuy" data-id="${r.id}">Trocar por bônus</button>`}</div></article>`}).join('')}</div>`}
+  if(t==='vou')b=`<section class="card"><div class="card-h"><h2>Meus resgates</h2><span class="sm-t">Apresente o código na concessionária</span></div>${S.vou.length?S.vou.map(v=>{const e=new Date(v.dt);e.setDate(e.getDate()+90);return `<div class="voucher"><div><b>${esc(v.n)}</b><div class="sm-t">Resgatado em ${fd(v.dt)} · válido até ${fd(loc(e))}</div></div><div class="acts"><span class="mono" style="font-weight:700;font-size:18px;letter-spacing:.06em">${v.code}</span>${v.used?chip('Utilizado','--st0',1):chip('Disponível','--ok',1)}</div></div>`}).join(''):'<p class="muted">Você ainda não trocou pontos por bônus.</p>'}</section>`;
+  if(t==='ext')b=`<section class="card"><div class="card-h"><h2>Extrato de pontos</h2></div><div class="tw"><table><thead><tr><th>Data</th><th>Descrição</th><th class="num">Pontos</th></tr></thead><tbody>${EXT.slice().reverse().map(x=>`<tr><td class="mono">${fd(x.d)}</td><td>${esc(x.t)}</td><td class="num mono" style="font-weight:700;color:${x.v>0?'var(--ok)':'var(--err)'}">${x.v>0?'+':'−'}${fmtN(Math.abs(x.v))}</td></tr>`).join('')}</tbody></table></div></section>`;
+  return ph('Recompensas','Responda quizzes, cumpra missões e troque pontos por bônus')+
+  `<div class="stack"><section class="card"><div class="sum"><div><div class="sm-t">Saldo de pontos</div><div class="big">${fmtN(bal)}<span class="muted" style="font-size:18px"> pts</span></div><div style="margin-top:8px">${chip('Nível '+lv.n,lv.c,1)}</div></div>
+  <div class="r"><div class="sm-t">Próximo nível</div><div class="bar" style="margin:10px 0"><i style="width:${lvPct()}%"></i></div><div class="sm-t">${lvNext()}</div></div></div>
+  <div class="metrics"><div class="m"><div class="lab">Pontos acumulados</div><div class="val">${fmtN(lifetime())}</div><div class="tag muted">Desde o cadastro</div></div>
+  <div class="m"><div class="lab">Missões feitas</div><div class="val">${MIS.filter(m=>m.st==='feita').length}/${MIS.length}</div><div class="tag" style="color:var(--ok)">Continue assim</div></div>
+  <div class="m"><div class="lab">Quizzes feitos</div><div class="val">${Object.keys(S.qz.done).length}/${STATUS.length}</div><div class="tag muted">Por etapa</div></div></div></section>
+  <div class="tabs" style="margin:0" role="tablist">${tabs.map(([k,l])=>`<button class="${t===k?'on':''}" data-a="recTab" data-v="${k}">${l}</button>`).join('')}</div>${b}</div>`;
+}
+/* ===== quiz por etapa de fabricação ===== */
+const QZ={
+AGUARDANDO:[
+ {q:'O que identifica de forma única cada veículo produzido?',o:['A cor da carroceria','O número do chassi','O nome da versão','O ano do modelo'],a:1,e:'O número do chassi é único e acompanha o veículo em registros, garantia e serviços.'},
+ {q:'Para que serve guardar o número do chassi?',o:['Identificar o veículo em documentos e serviços','Aumentar a potência do motor','Escolher a cor do carro','Reduzir o consumo'],a:0,e:'Ele é a identidade do veículo em qualquer atendimento ou consulta.'}],
+MONTAGEM_ESTRUTURAL:[
+ {q:'Qual parte do carro forma a estrutura que sustenta os demais componentes?',o:['Painel','Carroceria','Escapamento','Estofamento'],a:1,e:'A carroceria é a estrutura sobre a qual motor, interior e demais itens são montados.'},
+ {q:'Como as chapas da carroceria costumam ser unidas na linha de produção?',o:['Com fita adesiva','Com solda, muitas vezes feita por robôs','Com parafusos de madeira','Com cola escolar'],a:1,e:'Robôs de solda repetem cada ponto com a mesma precisão em todos os carros.'},
+ {q:'Por que a estrutura é importante para a segurança?',o:['Deixa o carro mais silencioso','Ajuda a absorver e distribuir a energia de um impacto','Aumenta o porta-malas','Melhora o som'],a:1,e:'Uma estrutura bem projetada protege os ocupantes ao distribuir a energia da colisão.'}],
+PINTURA:[
+ {q:'Qual camada dá o brilho final e protege a pintura?',o:['Primer','Base','Verniz','Massa'],a:2,e:'O verniz é a camada final: dá brilho e protege a cor contra sol e riscos leves.'},
+ {q:'Qual camada ajuda na aderência da tinta e na proteção contra corrosão?',o:['Primer','Verniz','Cera','Película'],a:0,e:'O primer prepara a superfície e ajuda a tinta a fixar.'},
+ {q:'Por que a pintura é aplicada em camadas?',o:['Só para gastar menos tinta','Para dar durabilidade e brilho','Para deixar o carro mais leve','Para trocar de cor depois'],a:1,e:'Cada camada tem uma função, e juntas garantem durabilidade e acabamento.'}],
+INSTALACAO_MOTOR:[
+ {q:'Qual componente leva a força do motor até as rodas?',o:['Transmissão','Retrovisor','Para-brisa','Buzina'],a:0,e:'A transmissão (câmbio) conecta o motor às rodas.'},
+ {q:'Um motor híbrido combina o motor a combustão com qual outro?',o:['Motor a vapor','Motor elétrico','Turbina a gás','Motor a pedal'],a:1,e:'Nos híbridos, o motor elétrico trabalha junto com o a combustão.'}],
+ACABAMENTO_INTERNO:[
+ {q:'Qual item mostra velocidade, rotação e alertas ao motorista?',o:['Painel de instrumentos','Porta-copos','Quebra-sol','Tapete'],a:0,e:'O painel de instrumentos reúne as informações de funcionamento do carro.'},
+ {q:'Qual item dentro da cabine protege os ocupantes em uma colisão?',o:['Cinto de segurança','Cinzeiro','Calha de chuva','Antena'],a:0,e:'O cinto é o item de segurança mais importante e deve ser usado por todos.'}],
+INSPECAO_FINAL:[
+ {q:'Qual sistema é testado para garantir uma parada segura?',o:['Freios','Rádio','Ar-condicionado','Vidros elétricos'],a:0,e:'Os freios passam por testes antes de o carro ser liberado.'},
+ {q:'O que um teste de vedação verifica?',o:['A velocidade máxima','Se há entrada de água ou ruído excessivo','O volume do porta-malas','A cor da tinta'],a:1,e:'Ele confirma que portas e vidros vedam bem contra água e ruído.'},
+ {q:'Por que existe uma inspeção final antes da liberação?',o:['Para confirmar que o carro atende aos padrões de qualidade','Para trocar a cor','Para aumentar o preço','Para adiantar a entrega'],a:0,e:'É a última checagem antes de o veículo seguir para a concessionária.'}],
+LIBERACAO_TRANSPORTE:[
+ {q:'O que acontece nesta etapa?',o:['O carro volta para a pintura','O carro aprovado aguarda o transporte até a concessionária','O motor é instalado','O cliente recebe as chaves'],a:1,e:'Aprovado na inspeção, o veículo está pronto para viajar até a loja.'},
+ {q:'Por que o carro é protegido durante o transporte?',o:['Para evitar riscos e sujeira no trajeto','Para trocar de cor','Para ficar mais leve','Para reduzir o preço'],a:0,e:'A proteção evita danos à pintura e ao interior até a chegada.'}],
+NA_CONCESSIONARIA:[
+ {q:'O que acontece na entrega do veículo?',o:['O carro é refeito','O vendedor apresenta os recursos do carro e confirma a documentação','O carro volta à fábrica','O cliente escolhe a cor'],a:1,e:'Na entrega o vendedor explica o carro e fecha os detalhes com você.'},
+ {q:'Quando fazer a primeira revisão?',o:['Nunca','Conforme o plano de manutenção do manual','Só se quebrar','Todo dia'],a:1,e:'O plano de manutenção do manual do proprietário define os prazos.'}],
+ENTREGUE:[
+ {q:'Onde fica o plano de manutenção do seu carro?',o:['No manual do proprietário','No retrovisor','No tanque','Na buzina'],a:0,e:'O manual traz os prazos de revisão e orientações de uso.'},
+ {q:'Qual número identifica o seu veículo em qualquer serviço?',o:['O número do chassi','O número da placa do vizinho','O CEP','O ano do modelo'],a:0,e:'O chassi é a identidade do veículo do começo ao fim.'}]
+};
+const QPT=50;
+Object.assign(S,{qz:{done:{}},qq:null});
+const qzMax=k=>QZ[k].length*QPT+QPT;
+const qzIdx=k=>STATUS.findIndex(s=>s.k===k);
+const qzOpen=k=>qzIdx(k)<=VEI[0].etapa;
+
+function qzTab(){
+  const done=Object.keys(S.qz.done).length;
+  return `<section class="card"><div class="card-h"><h2>Quiz por etapa</h2><span class="sm-t">${done}/${STATUS.length} concluídos</span></div>
+  <p class="muted" style="margin-bottom:20px">Cada etapa da fabricação tem um quiz de até 3 perguntas. Você ganha ${QPT} pts por acerto e mais ${QPT} pts se acertar todas. Cada quiz vale uma vez e é liberado quando o seu veículo chega à etapa.</p>
+  <div class="pgrid">${STATUS.map(s=>{const k=s.k,d=S.qz.done[k],open=qzOpen(k),now=qzIdx(k)===VEI[0].etapa;
+   return `<article class="pcard"><div class="pbody" style="gap:10px"><div class="acts" style="justify-content:space-between"><span class="ico">${ic(d?'check':open?'star':'gear',22)}</span>${d?chip('Concluído','--ok',1):open?chip(now?'Etapa atual':'Disponível','--info',1):chip('Bloqueado','--st0',1)}</div>
+   <h3>${s.l}</h3><span class="muted">${QZ[k].length} pergunta${QZ[k].length>1?'s':''} · até ${qzMax(k)} pts</span>
+   ${d?`<span class="pts" style="color:var(--ok)">${d.sc}/${d.n} acertos · +${d.pts} pts</span>`:''}
+   ${d?'':open?`<button class="btn sm" data-a="qzStart" data-id="${k}">Fazer quiz</button>`:`<button class="btn ghost sm" disabled>Libera na etapa ${qzIdx(k)+1}</button>`}</div></article>`}).join('')}</div></section>`;
+}
+function qzCard(v){
+  if(v.chassi!=='10001')return '';
+  const k=STATUS[v.etapa].k,d=S.qz.done[k];
+  return `<section class="card"><div class="card-h"><h2>Quiz desta etapa</h2>${d?chip('Concluído','--ok',1):''}</div>
+  ${d?`<p class="muted">Você acertou ${d.sc} de ${d.n} e ganhou ${d.pts} pts. <a href="#cliente-recompensas" style="color:var(--red);font-weight:700">Ver recompensas</a></p>`:
+  `<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><p class="muted" style="max-width:52ch">Responda ${QZ[k].length} pergunta${QZ[k].length>1?'s':''} sobre ${STATUS[v.etapa].l.toLowerCase()} e ganhe até ${qzMax(k)} pontos para trocar por bônus.</p><button class="btn" data-a="qzStart" data-id="${k}">Fazer quiz</button></div>`}</section>`;
+}
+function quizModal(){
+  const q=S.qq,L=QZ[q.k],cur=L[q.i],st=STATUS[qzIdx(q.k)];
+  if(q.fin){const pts=q.sc*QPT+(q.sc===L.length?QPT:0);
+    return modal('Quiz concluído',`<div style="text-align:center;display:grid;gap:10px;justify-items:center"><span class="ico big-i" style="background:var(--red-tint)">${ic('trophy',34)}</span><div class="big" style="color:var(--ok)">+${pts} pts</div><p class="muted">Você acertou ${q.sc} de ${L.length} em ${st.l.toLowerCase()}.${q.sc===L.length?' Bônus por acertar todas incluído.':''}</p></div><div class="acts" style="justify-content:flex-end"><button class="btn ghost" data-a="qzMore">Mais quizzes</button><button class="btn" data-a="qzCat">Ver catálogo de bônus</button></div>`);}
+  const ans=q.sel!==null;
+  modal(`Quiz · ${st.l}`,`<div class="steps">${L.map((_,i)=>`<i class="${i<=q.i?'on':''}"></i>`).join('')}</div>
+  <div><div class="sm-t">Pergunta ${q.i+1} de ${L.length}</div><h3 style="font-size:18px;font-weight:800;margin-top:4px;text-wrap:balance">${cur.q}</h3></div>
+  <div class="opts">${cur.o.map((t,i)=>`<button class="opt ${ans?(i===cur.a?'ok':i===q.sel?'bad':''):''}" data-a="qzPick" data-id="${i}" ${ans?'disabled':''}>${esc(t)}</button>`).join('')}</div>
+  ${ans?`<p class="muted"><b style="color:${q.sel===cur.a?'var(--ok)':'var(--err)'}">${q.sel===cur.a?'Correto.':'Não foi dessa vez.'}</b> ${cur.e}</p><div class="acts" style="justify-content:flex-end"><button class="btn" data-a="qzNext">${q.i<L.length-1?'Próxima pergunta':'Ver resultado'}</button></div>`:''}`);
 }
 /* ===== vendedor / admin ===== */
 const kpi=(l,n,i)=>`<div class="card kpi"><div class="top"><span>${l}</span>${ic(i,20)}</div><div class="n">${n}</div></div>`;
@@ -674,7 +841,21 @@ usrFilter(el){S.uf=el.dataset.v;render()},
 usrView(el){const u=USR.find(x=>x.id===+el.dataset.id);modal(esc(u.n),`<dl class="dl"><dt>E-mail</dt><dd>${esc(u.e)}</dd><dt>Tipo</dt><dd>${u.t}</dd><dt>Role</dt><dd>${u.r}</dd><dt>Cadastro</dt><dd>${fd(u.d)}</dd><dt>Status</dt><dd>${u.a?'Ativo':'Inativo'}</dd></dl>`)},
 usrToggle(el){const u=USR.find(x=>x.id===+el.dataset.id);confirmM(u.a?'Desativar usuário':'Ativar usuário',`${u.a?'Desativar':'Ativar'} o acesso de <b>${esc(u.n)}</b>?`,'usrOk',u.id,u.a,u.a?'Desativar':'Ativar')},
 usrOk(el){const u=USR.find(x=>x.id===+el.dataset.id);u.a=!u.a;close();toast(u.a?'Usuário ativado':'Usuário desativado');render()},
-perTab(el){S.tab=el.dataset.v;render()}
+perTab(el){S.tab=el.dataset.v;render()},
+agcFilter(el){S.agf=el.dataset.v;render()},
+agcNew(){S.agT='VISITA';modal('Novo agendamento',`<form data-submit="agcSave" class="stack" style="gap:16px"><div class="f"><label>Tipo de agendamento</label><div class="tipos" style="grid-template-columns:repeat(3,minmax(0,1fr))">${Object.entries(TIPO).map(([k,t])=>`<button type="button" class="tipo ${k==='VISITA'?'on':''}" data-a="agcTipo" data-v="${k}">${t.l}</button>`).join('')}</div></div><div class="f"><label for="gd">Data e hora</label><input id="gd" type="datetime-local" required min="${loc(TODAY)}" value="${loc(new Date(TODAY.getTime()+3*864e5)).slice(0,11)}10:00"></div><div class="f"><label>Vendedor</label><input value="Carlos Vendedor Toyota" disabled></div><div class="f"><label for="go">Observação</label><textarea id="go" rows="2" placeholder="Ex.: levar documentos"></textarea></div><div class="acts" style="justify-content:flex-end"><button type="button" class="btn ghost" data-a="close">Cancelar</button><button class="btn" type="submit">Solicitar agendamento</button></div></form>`)},
+agcTipo(el){S.agT=el.dataset.v;document.querySelectorAll('#mr .tipo').forEach(b=>b.classList.toggle('on',b.dataset.v===S.agT))},
+qzStart(el){const k=el.dataset.id;if(S.qz.done[k])return toast('Você já fez este quiz');if(!qzOpen(k))return toast('Quiz liberado quando o veículo chegar a esta etapa');S.qq={k,i:0,sc:0,sel:null};quizModal()},
+qzPick(el){const q=S.qq;if(q.sel!==null)return;q.sel=+el.dataset.id;if(q.sel===QZ[q.k][q.i].a)q.sc++;quizModal()},
+qzNext(){const q=S.qq,L=QZ[q.k];if(q.i<L.length-1){q.i++;q.sel=null;quizModal();return}
+  const pts=q.sc*QPT+(q.sc===L.length?QPT:0);S.qz.done[q.k]={sc:q.sc,n:L.length,pts};EXT.push({d:loc(TODAY),t:'Quiz: '+STATUS[qzIdx(q.k)].l.toLowerCase(),v:pts});q.fin=true;quizModal()},
+qzMore(){S.rt='quiz';go('cliente-recompensas')},
+qzCat(){S.rt='cat';go('cliente-recompensas')},
+recTab(el){S.rt=el.dataset.v;render()},
+recFilter(el){S.rf=el.dataset.v;render()},
+recClaim(el){const m=MIS.find(x=>x.id===+el.dataset.id);m.st='feita';EXT.push({d:loc(TODAY),t:'Missão: '+m.t.toLowerCase(),v:m.pts});toast(`+${m.pts} pontos`);render()},
+recBuy(el){const r=REW.find(x=>x.id===+el.dataset.id);modal('Trocar por bônus',`<div class="acts" style="gap:14px;flex-wrap:nowrap"><span class="ico">${ic(r.ic,22)}</span><div><b>${r.n}</b><div class="muted">${r.d}</div></div></div><dl class="dl"><dt>Custo</dt><dd class="mono">${fmtN(r.c)} pts</dd><dt>Saldo atual</dt><dd class="mono">${fmtN(saldo())} pts</dd><dt>Saldo após a troca</dt><dd class="mono">${fmtN(saldo()-r.c)} pts</dd></dl><div class="acts" style="justify-content:flex-end"><button class="btn ghost" data-a="close">Cancelar</button><button class="btn" data-a="recOk" data-id="${r.id}">Confirmar troca</button></div>`)},
+recOk(el){const r=REW.find(x=>x.id===+el.dataset.id);if(saldo()<r.c)return toast('Pontos insuficientes');EXT.push({d:loc(TODAY),t:'Resgate: '+r.n,v:-r.c});S.vou.unshift({code:'TX-'+Math.random().toString(36).slice(2,7).toUpperCase(),n:r.n,dt:loc(TODAY),used:false});S.rt='vou';close();toast('Bônus resgatado. Veja o código em Meus resgates');render()}
 };
 const SUB={
 login(f){const e=val('em').toLowerCase();go(e.includes('admin')?'admin-dashboard':e.includes('vend')?'vendedor-dashboard':'cliente-dashboard')},
@@ -686,6 +867,7 @@ prodSave(f){const o={modelo:val('fm'),versao:val('fv'),cor:val('fc'),ano:+val('f
 veiSave(f){const v=VEI.find(x=>x.chassi===f.dataset.id),i=+$('#vs').value;
   v.hist=v.hist.slice(0,i+1);while(v.hist.length<=i)v.hist.push(loc(new Date()));v.etapa=i;close();toast(`Chassi ${v.chassi}: ${STATUS[i].l}`);render()},
 agSave(f){const e=AG.find(x=>x.id===+f.dataset.id);Object.assign(e,{cliente:val('ac'),tipo:val('at'),dt:val('ad'),status:val('as'),obs:val('ao')});close();toast('Agendamento atualizado');render()},
+agcSave(){const d=val('gd');if(!d||new Date(d)<TODAY)return toast('Escolha uma data futura');AG.push({id:AG.length+1,cliente:'Ana Souza',tipo:S.agT,dt:d,obs:val('go'),status:'PENDENTE',vend:'Carlos Vendedor Toyota'});S.agf='Todos';close();toast('Agendamento solicitado. Aguarde a confirmação do vendedor');render()},
 agNewSave(){AG.push({id:AG.length+1,cliente:val('ac'),tipo:val('at'),dt:val('ad'),obs:val('ao'),status:'PENDENTE',vend:'Carlos Vendedor Toyota'});close();toast('Agendamento criado');render()}
 };
 
@@ -704,12 +886,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 
 function page(h){
   if(h==='cliente-dashboard')return cDash();
-  if(h==='cliente-catalogo')return cCat();
   if(h==='cliente-meus-pedidos')return cPeds();
   if(h.startsWith('cliente-pedido-'))return cPed(h.slice(15));
   if(h.startsWith('cliente-rastreamento-'))return cRastr(h.slice(21));
   if(h==='cliente-agendamentos')return cAg();
   if(h==='cliente-perfil')return cPerfil();
+  if(h==='cliente-recompensas')return cRec();
   if(h==='vendedor-dashboard')return vDash();
   if(h==='vendedor-pedidos'||h==='admin-pedidos')return pedidosV(h.startsWith('admin'));
   if(h==='vendedor-agenda')return vAgenda();
