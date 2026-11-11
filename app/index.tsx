@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     letterSpacing: 2,
     textTransform: 'uppercase',
+    textAlign: 'center',
     color: '#fff',
   },
   heroSub: {

@@ -1,7 +1,27 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { Colors, Fonts } from '@/constants/theme';
+import Svg, { Path } from 'react-native-svg';
+import { Colors, Fonts, Radii } from '@/constants/theme';
+
+function BoltMini() {
+  return (
+    <Svg width={14} height={14} viewBox="0 0 24 24" fill="none"
+      stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <Path d="M13 2L4 14h7l-1 8 9-12h-7z" />
+    </Svg>
+  );
+}
+
+function LogoutIcon() {
+  return (
+    <Svg width={16} height={16} viewBox="0 0 24 24" fill="none"
+      stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <Path d="M9 21H5V3h4" />
+      <Path d="M16 17l5-5-5-5M21 12H9" />
+    </Svg>
+  );
+}
 
 interface ClienteHeaderProps {
   showBack?: boolean;
@@ -13,30 +33,24 @@ export function ClienteHeader({ showBack = false }: ClienteHeaderProps) {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
-      <Text style={styles.brand} numberOfLines={1}>
-        <Text style={styles.brandBold}>TOYOTA </Text>
-        <Text style={styles.brandLight}>EXPERIENCE</Text>
-      </Text>
+      <View style={styles.brand}>
+        <View style={styles.mark}>
+          <BoltMini />
+        </View>
+        <View>
+          <Text style={styles.brandBold}>TOYOTA</Text>
+          <Text style={styles.brandSub}>EXPERIENCE</Text>
+        </View>
+      </View>
 
-      {showBack ? (
-        <TouchableOpacity
-          style={styles.logoutBtn}
-          onPress={() => router.back()}
-          accessibilityLabel="Voltar"
-          activeOpacity={0.7}
-        >
-          <Text style={styles.logoutIcon}>{'←'}</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={styles.logoutBtn}
-          onPress={() => router.replace('/')}
-          accessibilityLabel="Sair"
-          activeOpacity={0.7}
-        >
-          <Text style={styles.logoutIcon}>{'↪'}</Text>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        style={styles.actionBtn}
+        onPress={() => showBack ? router.back() : router.replace('/')}
+        accessibilityLabel={showBack ? 'Voltar' : 'Sair'}
+        activeOpacity={0.7}
+      >
+        <LogoutIcon />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -51,32 +65,39 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   brand: {
-    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  mark: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: Colors.red,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   brandBold: {
     fontFamily: Fonts.extraBold,
     fontSize: 15,
-    letterSpacing: 1.5,
+    letterSpacing: 0.3,
     color: '#fff',
+    lineHeight: 18,
   },
-  brandLight: {
+  brandSub: {
     fontFamily: Fonts.semiBold,
-    fontSize: 15,
-    letterSpacing: 1.5,
+    fontSize: 10,
+    letterSpacing: 1.2,
     color: Colors.sideInk,
+    lineHeight: 13,
   },
-  logoutBtn: {
+  actionBtn: {
     width: 36,
     height: 36,
-    borderRadius: 8,
+    borderRadius: Radii.md,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.18)',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  logoutIcon: {
-    color: '#fff',
-    fontSize: 16,
-    lineHeight: 20,
   },
 });

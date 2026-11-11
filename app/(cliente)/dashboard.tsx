@@ -1,16 +1,35 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';import { Colors, Fonts, Radii, Shadow } from '@/constants/theme';
-import { Card, CardHeader } from '@/components/ui/Card';
-import { Chip } from '@/components/ui/Chip';
+import { useRouter } from 'expo-router';
+import Svg, { Path } from 'react-native-svg';
+import { Colors, Fonts, Radii, Shadow } from '@/constants/theme';
 import { ProgressBar } from '@/components/ui/ProgressBar';
-import { ChevronIcon } from '@/components/icons/ChevronIcon';
 import { CalendarIcon } from '@/components/icons/CalendarIcon';
+import { ChevronIcon } from '@/components/icons/ChevronIcon';
 import {
-  STATUS, TIPO, AST, VEI, PED, AG, LV,
+  STATUS, TIPO, AST, VEI, PED, AG, LV, CAR_IMAGES,
   CURRENT_USER, brl, fmtN, fdShort, ft, hoje,
   saldo, lvIdx, lvPct, lvNext, nextAg, daysSince,
 } from '@/constants/data';
+
+function ChipInline({ label, color, dot }: { label: string; color: string; dot?: boolean }) {
+  const bg = color + '22';
+  return (
+    <View style={[styles.chip, { backgroundColor: bg }]}>
+      {dot && <View style={[styles.chipDot, { backgroundColor: color }]} />}
+      <Text style={[styles.chipText, { color }]}>{label}</Text>
+    </View>
+  );
+}
+
+function ChevRight() {
+  return (
+    <Svg width={16} height={16} viewBox="0 0 24 24" fill="none"
+      stroke={Colors.red} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <Path d="M9 6l6 6-6 6" />
+    </Svg>
+  );
+}
 
 export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
@@ -32,162 +51,177 @@ export default function DashboardScreen() {
   return (
     <ScrollView
       style={styles.root}
-      contentContainerStyle={[
-        styles.content,
-        { paddingTop: 20, paddingBottom: insets.bottom + 96 },
-      ]}
+      contentContainerStyle={{ paddingBottom: insets.bottom + 96 }}
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.pageHeader}>
-        <View style={{ flex: 1 }}>
+        {/* título + subtítulo */}
+        <View style={styles.phTexts}>
           <Text style={styles.phTitle}>Olá, Ana!</Text>
           <Text style={styles.phSub}>{hoje()}</Text>
         </View>
+        {/* botão vermelho largura total */}
         <TouchableOpacity
           style={styles.phBtn}
           onPress={() => router.push('/(cliente)/rastreamento')}
           activeOpacity={0.85}
         >
           <Text style={styles.phBtnText}>Acompanhar fabricação</Text>
-          <ChevronIcon size={16} color="#fff" />
+          <ChevRight />
         </TouchableOpacity>
+        {/* divisor vermelho 3px */}
+        <View style={styles.phDivider} />
       </View>
 
-      <Card style={styles.mb24}>
-        <CardHeader title="Resumo do pedido" action={<Text style={styles.smT}>Pedido #{p.id}</Text>} />
-        <View style={styles.sumRow}>
-          <View style={{ flex: 1.3 }}>
-            <Text style={styles.smT}>Valor total</Text>
-            <Text style={styles.bigNum}>{brl(p.valor)}</Text>
-            <Text style={styles.sumDesc}>{p.modelo} {p.versao} {p.ano} · {p.cor}</Text>
-          </View>
-          <View style={styles.sumRight}>
-            <Text style={styles.smT}>Etapa de fabricação</Text>
-            <Text style={styles.bigNum}>
-              {v.etapa + 1}
-              <Text style={styles.bigNumMuted}>/9</Text>
-            </Text>
-            <Chip label={st.l} color={st.c} />
-          </View>
-        </View>
-        <View style={styles.metrics}>
-          <View style={styles.metric}>
-            <Text style={styles.metricLab}>Progresso</Text>
-            <Text style={styles.metricVal}>{pct}%</Text>
-            <Text style={[styles.metricTag, { color: Colors.ok }]}>No prazo</Text>
-          </View>
-          <View style={styles.metric}>
-            <Text style={styles.metricLab}>Dias em produção</Text>
-            <Text style={styles.metricVal}>{daysSince(v.hist[0])}</Text>
-            <Text style={[styles.metricTag, { color: Colors.ok }]}>Ótimo</Text>
-          </View>
-          <View style={styles.metric}>
-            <Text style={styles.metricLab}>Chassi</Text>
-            <Text style={styles.metricVal}>{v.chassi}</Text>
-            <Text style={[styles.metricTag, { color: Colors.muted }]}>Identificação</Text>
-          </View>
-        </View>
-      </Card>
+      <View style={styles.stack}>
 
-      <Card style={styles.mb24}>
-        <CardHeader
-          title="Status do veículo"
-          action={
+        {/* ── Resumo do pedido ── */}
+        <View style={styles.card}>
+          <View style={styles.cardH}>
+            <Text style={styles.cardTitle}>Meu pedido</Text>
+            <Text style={styles.smT}>#{p.id}</Text>
+          </View>
+
+          {/* Foto do carro */}
+          {CAR_IMAGES[p.modelo] ? (
+            <Image
+              source={{ uri: CAR_IMAGES[p.modelo] }}
+              style={styles.carImage}
+              resizeMode="cover"
+            />
+          ) : null}
+
+          <View style={styles.sum}>
+            <View style={{ flex: 1.3 }}>
+              <Text style={styles.smT}>Valor total</Text>
+              <Text style={styles.big}>{brl(p.valor)}</Text>
+              <Text style={styles.delta}>{p.modelo} {p.versao} · {p.cor}</Text>
+            </View>
+            <View style={styles.sumR}>
+              <Text style={styles.smT}>Etapa</Text>
+              <Text style={styles.big}>
+                {v.etapa + 1}
+                <Text style={styles.bigMuted}>/9</Text>
+              </Text>
+              <ChipInline label={st.l} color={st.c} />
+            </View>
+          </View>
+          <View style={styles.metrics}>
+            <View style={styles.m}>
+              <Text style={styles.mLab}>Progresso</Text>
+              <Text style={styles.mVal}>{pct}%</Text>
+              <Text style={[styles.mTag, { color: Colors.ok }]}>No prazo</Text>
+            </View>
+            <View style={styles.m}>
+              <Text style={styles.mLab}>Dias em prod.</Text>
+              <Text style={styles.mVal}>{daysSince(v.hist[0])}</Text>
+              <Text style={[styles.mTag, { color: Colors.ok }]}>Ótimo</Text>
+            </View>
+            <View style={styles.m}>
+              <Text style={styles.mLab}>Chassi</Text>
+              <Text style={styles.mVal}>{v.chassi}</Text>
+              <Text style={[styles.mTag, { color: Colors.muted }]}>ID</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* ── Status do veículo ── */}
+        <View style={styles.card}>
+          <View style={styles.cardH}>
+            <Text style={styles.cardTitle}>Status do veículo</Text>
             <TouchableOpacity onPress={() => router.push('/(cliente)/rastreamento')}>
               <Text style={styles.link}>Ver detalhes</Text>
             </TouchableOpacity>
-          }
-        />
-        <View style={styles.statusRow}>
-          <Text style={styles.statusName}>{st.l}</Text>
-          <Text style={styles.smT}>Etapa {v.etapa + 1} de 9</Text>
-        </View>
-        <ProgressBar progress={pct} height={8} />
-        <Text style={styles.statusMsg}>{st.msg}</Text>
-      </Card>
-
-      <Card style={styles.mb24}>
-        <CardHeader title="Próximo agendamento" />
-        {ag ? (
-          <View style={{ gap: 8 }}>
-            <Text style={styles.agWhen}>{fdShort(ag.dt)} · {ft(ag.dt)}</Text>
-            <View style={styles.chipRow}>
-              <Chip label={TIPO[ag.tipo].l} color={TIPO[ag.tipo].c} />
-              <Chip label={AST[ag.status].l} color={AST[ag.status].c} dot />
-            </View>
-            <Text style={styles.smT}>Vendedor: {ag.vend}</Text>
           </View>
-        ) : (
-          <Text style={styles.smT}>Nenhum agendamento futuro.</Text>
-        )}
-      </Card>
+          <View style={styles.statusRow}>
+            <Text style={styles.statusName}>{st.l}</Text>
+            <Text style={styles.smT}>Etapa {v.etapa + 1} de 9</Text>
+          </View>
+          <ProgressBar progress={pct} height={8} />
+          <Text style={styles.statusMsg}>{st.msg}</Text>
+        </View>
 
-      <Card style={styles.mb24}>
-        <CardHeader
-          title="Recompensas"
-          action={
+        {/* ── Próximo agendamento ── */}
+        <View style={styles.card}>
+          <View style={styles.cardH}>
+            <Text style={styles.cardTitle}>Próximo agendamento</Text>
+          </View>
+          {ag ? (
+            <View style={{ gap: 8 }}>
+              <Text style={styles.agWhen}>{fdShort(ag.dt)} · {ft(ag.dt)}</Text>
+              <View style={styles.chipRow}>
+                <ChipInline label={TIPO[ag.tipo].l} color={TIPO[ag.tipo].c} />
+                <ChipInline label={AST[ag.status].l} color={AST[ag.status].c} dot />
+              </View>
+              <Text style={styles.smT}>Vendedor: {ag.vend}</Text>
+            </View>
+          ) : (
+            <Text style={styles.smT}>Nenhum agendamento futuro.</Text>
+          )}
+        </View>
+
+        {/* ── Recompensas ── */}
+        <View style={styles.card}>
+          <View style={styles.cardH}>
+            <Text style={styles.cardTitle}>Recompensas</Text>
             <TouchableOpacity onPress={() => router.push('/(cliente)/recompensas')}>
               <Text style={styles.link}>Ver bônus</Text>
             </TouchableOpacity>
-          }
-        />
-        <Text style={styles.bigNum}>
-          {fmtN(saldo())}
-          <Text style={styles.bigNumMuted}> pts</Text>
-        </Text>
-        <View style={{ marginVertical: 8 }}>
-          <Chip label={`Nível ${lv.n}`} color={lv.c} dot />
+          </View>
+          <Text style={styles.big}>
+            {fmtN(saldo())}
+            <Text style={styles.bigMuted}> pts</Text>
+          </Text>
+          <View style={{ marginTop: 8, marginBottom: 14 }}>
+            <ChipInline label={`Nível ${lv.n}`} color={lv.c} dot />
+          </View>
+          <ProgressBar progress={lvPct()} height={8} />
+          <Text style={styles.smTmt}>{lvNext()}</Text>
         </View>
-        <ProgressBar progress={lvPct()} height={8} />
-        <Text style={styles.smTmt}>{lvNext()}</Text>
-      </Card>
 
-      <Card style={styles.mb24}>
-        <CardHeader title="Pedidos e acompanhamento" />
+        {/* ── Pedidos e acompanhamento ── */}
+        <View style={styles.card}>
+          <View style={styles.cardH}>
+            <Text style={styles.cardTitle}>Meus números</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => router.push('/(cliente)/meus-pedidos')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.rowLabel}>Pedidos ativos</Text>
+            <Text style={styles.rowCount}>{pedidosAtivos}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => router.push('/(cliente)/rastreamento')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.rowLabel}>Veículos em fabricação</Text>
+            <Text style={styles.rowCount}>{veiculosFab}</Text>
+          </TouchableOpacity>
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>Agendamentos pendentes</Text>
+            <Text style={styles.rowCount}>{agendPend}</Text>
+          </View>
+        </View>
+
+        {/* ── Quick action — Meus agendamentos ── */}
         <TouchableOpacity
-          style={styles.listRow}
-          onPress={() => router.push('/(cliente)/meus-pedidos')}
+          style={styles.qa}
+          onPress={() => router.push('/(cliente)/agendamentos')}
           activeOpacity={0.7}
         >
-          <Text style={styles.listLabel}>Pedidos ativos</Text>
-          <Text style={styles.listCount}>{pedidosAtivos}</Text>
+          <View style={styles.qaIco}>
+            <CalendarIcon size={22} color={Colors.red} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.qaTitle}>Meus agendamentos</Text>
+            <Text style={styles.qaSub}>Visitas e test drives</Text>
+          </View>
+          <ChevronIcon size={18} color={Colors.muted} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.listRow}
-          onPress={() => router.push('/(cliente)/rastreamento')}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.listLabel}>Veículos em fabricação</Text>
-          <Text style={styles.listCount}>{veiculosFab}</Text>
-        </TouchableOpacity>
-        <View style={styles.listRow}>
-          <Text style={styles.listLabel}>Agendamentos pendentes</Text>
-          <Text style={styles.listCount}>{agendPend}</Text>
-        </View>
-      </Card>
 
-      <TouchableOpacity
-        style={styles.qaBtn}
-        onPress={() => router.push('/(cliente)/agendamentos')}
-        activeOpacity={0.7}
-      >
-        <View style={styles.qaIcon}>
-          <CalendarIcon size={22} color={Colors.red} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.qaTitle}>Meus agendamentos</Text>
-          <Text style={styles.qaSub}>Visitas, test drives e entregas</Text>
-        </View>
-        <ChevronIcon size={18} color={Colors.muted} />
-      </TouchableOpacity>
-
-      <View style={styles.banner}>
-        <Text style={styles.bannerTitle}>
-          Seu Toyota está sendo fabricado com precisão.
-        </Text>
-        <TouchableOpacity onPress={() => router.push('/(cliente)/rastreamento')} activeOpacity={0.7}>
-          <Text style={styles.bannerLink}>Acompanhar fabricação</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -195,58 +229,96 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.bg },
-  content: { paddingHorizontal: 20 },
-  mb24: { marginBottom: 24 },
 
+  /* ── Page header ── */
   pageHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    gap: 16,
-    flexWrap: 'wrap',
-    paddingBottom: 16,
-    marginBottom: 28,
-    borderBottomWidth: 3,
-    borderBottomColor: Colors.red,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  phTexts: {
+    marginBottom: 16,
   },
   phTitle: {
     fontFamily: Fonts.extraBold,
-    fontSize: 24,
-    letterSpacing: -0.5,
+    fontSize: 28,
+    letterSpacing: -0.56,
     color: Colors.ink,
   },
   phSub: {
     fontFamily: Fonts.regular,
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.muted,
     marginTop: 4,
   },
   phBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    height: 40,
-    paddingHorizontal: 16,
+    justifyContent: 'center',
+    gap: 8,
+    height: 44,
     borderRadius: Radii.md,
     backgroundColor: Colors.red,
+    marginBottom: 16,
   },
   phBtnText: {
     fontFamily: Fonts.bold,
-    fontSize: 13,
+    fontSize: 14,
     color: '#fff',
   },
-
-  bigNum: {
-    fontFamily: Fonts.bold,
-    fontSize: 20,
-    letterSpacing: -0.4,
-    color: Colors.ink,
-    lineHeight: 26,
+  phDivider: {
+    height: 3,
+    backgroundColor: Colors.red,
+    borderRadius: 2,
+    marginBottom: 0,
   },
-  bigNumMuted: {
+
+  /* ── Stack ── */
+  stack: {
+    paddingHorizontal: 20,
+    paddingTop: 28,
+    gap: 24,
+  },
+
+  /* ── Card genérico ── */
+  card: {
+    backgroundColor: Colors.surface,
+    borderRadius: Radii.lg,
+    borderWidth: 1,
+    borderColor: Colors.line,
+    padding: 24,
+    ...Shadow.card,
+  },
+  cardH: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  cardTitle: {
+    fontFamily: Fonts.bold,
+    fontSize: 16,
+    color: Colors.ink,
+  },
+
+  /* ── Tipografia compartilhada ── */
+  big: {
+    fontFamily: Fonts.extraBold,
+    fontSize: 30,
+    letterSpacing: -0.6,
+    color: Colors.ink,
+    lineHeight: 36,
+  },
+  bigMuted: {
     fontFamily: Fonts.regular,
-    fontSize: 14,
+    fontSize: 18,
     color: Colors.muted,
+    letterSpacing: 0,
+  },
+  delta: {
+    fontFamily: Fonts.regular,
+    fontSize: 13,
+    color: Colors.muted,
+    marginTop: 4,
   },
   smT: {
     fontFamily: Fonts.regular,
@@ -265,21 +337,45 @@ const styles = StyleSheet.create({
     color: Colors.red,
   },
 
-  sumRow: { flexDirection: 'row', gap: 24 },
-  sumRight: {
+  carImage: {
+    width: '100%',
+    height: 160,
+    borderRadius: Radii.md,
+    marginBottom: 16,
+    backgroundColor: Colors.soft,
+  },
+
+  /* ── Sum (Resumo do pedido) ── */
+  sum: { flexDirection: 'row', gap: 0 },
+  sumR: {
     flex: 1,
     borderLeftWidth: 1,
     borderLeftColor: Colors.line,
     paddingLeft: 24,
     gap: 4,
   },
-  sumDesc: {
-    fontFamily: Fonts.regular,
-    fontSize: 13,
-    color: Colors.muted,
-    marginTop: 2,
+
+  /* ── Chip inline ── */
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderRadius: Radii.full,
+    paddingHorizontal: 11,
+    paddingVertical: 3,
+    alignSelf: 'flex-start',
+  },
+  chipDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  chipText: {
+    fontFamily: Fonts.bold,
+    fontSize: 12,
   },
 
+  /* ── Metrics ── */
   metrics: {
     flexDirection: 'row',
     gap: 16,
@@ -288,23 +384,24 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: Colors.line,
   },
-  metric: { flex: 1, gap: 2 },
-  metricLab: {
+  m: { flex: 1, gap: 2 },
+  mLab: {
     fontFamily: Fonts.semiBold,
-    fontSize: 11,
+    fontSize: 12,
     color: Colors.muted,
   },
-  metricVal: {
+  mVal: {
     fontFamily: Fonts.bold,
-    fontSize: 17,
+    fontSize: 20,
     color: Colors.ink,
     marginVertical: 2,
   },
-  metricTag: {
+  mTag: {
     fontFamily: Fonts.bold,
-    fontSize: 11,
+    fontSize: 12,
   },
 
+  /* ── Status do veículo ── */
   statusRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -313,20 +410,21 @@ const styles = StyleSheet.create({
   },
   statusName: {
     fontFamily: Fonts.bold,
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.ink,
   },
   statusMsg: {
     fontFamily: Fonts.regular,
     fontSize: 14,
     color: Colors.muted,
-    marginTop: 14,
     lineHeight: 20,
+    marginTop: 14,
   },
 
+  /* ── Agendamento ── */
   agWhen: {
     fontFamily: Fonts.extraBold,
-    fontSize: 15,
+    fontSize: 18,
     color: Colors.ink,
   },
   chipRow: {
@@ -335,7 +433,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 
-  listRow: {
+  /* ── Rows (pedidos e acompanhamento) ── */
+  row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -343,34 +442,35 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: Colors.line,
   },
-  listLabel: {
+  rowLabel: {
     fontFamily: Fonts.regular,
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.ink,
   },
-  listCount: {
+  rowCount: {
     fontFamily: Fonts.bold,
-    fontSize: 15,
+    fontSize: 18,
     color: Colors.ink,
   },
 
-  qaBtn: {
+  /* ── Quick action .qa ── */
+  qa: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
     backgroundColor: Colors.surface,
     borderWidth: 1,
     borderColor: Colors.line,
-    borderRadius: 12,
+    borderRadius: Radii.lg,
     padding: 20,
-    marginBottom: 24,
+    paddingHorizontal: 24,
     ...Shadow.card,
   },
-  qaIcon: {
+  qaIco: {
     width: 44,
     height: 44,
-    borderRadius: 12,
-    backgroundColor: '#FFF5F5',
+    borderRadius: Radii.lg,
+    backgroundColor: Colors.redTint,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -381,14 +481,15 @@ const styles = StyleSheet.create({
   },
   qaSub: {
     fontFamily: Fonts.regular,
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.muted,
     marginTop: 2,
   },
 
+  /* ── Banner ── */
   banner: {
     backgroundColor: Colors.dark,
-    borderRadius: 12,
+    borderRadius: Radii.lg,
     paddingHorizontal: 32,
     paddingVertical: 28,
     flexDirection: 'row',
@@ -400,14 +501,19 @@ const styles = StyleSheet.create({
   },
   bannerTitle: {
     fontFamily: Fonts.extraBold,
-    fontSize: 16,
+    fontSize: 20,
     color: '#fff',
     flex: 1,
-    flexWrap: 'wrap',
+    lineHeight: 26,
+  },
+  bannerLinkRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   bannerLink: {
     fontFamily: Fonts.bold,
-    fontSize: 13,
+    fontSize: 14,
     color: '#FF5A68',
   },
 });

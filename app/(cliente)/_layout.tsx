@@ -84,6 +84,7 @@ export default function ClienteLayout() {
 
         <Tabs.Screen name="catalogo" options={{ href: null }} />
         <Tabs.Screen name="agendamentos" options={{ href: null }} />
+        <Tabs.Screen name="pedido" options={{ href: null }} />
       </Tabs>
     </>
   );
