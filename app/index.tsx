@@ -16,6 +16,7 @@ import { Colors, Fonts, Radii } from '@/constants/theme';
 import { EyeIcon } from '@/components/icons/EyeIcon';
 import { EyeOffIcon } from '@/components/icons/EyeOffIcon';
 import { HeroBackground } from '@/components/login/HeroBackground';
+import { getApiErrorMessage, login, saveAuthToken } from '@/services/api';
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
@@ -25,14 +26,35 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('senha1234');
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!email.trim()) {
       setEmailError('Informe seu e-mail');
       return;
     }
     setEmailError('');
-    router.replace('/(cliente)/dashboard');
+    setLoginError('');
+
+    if (!password) {
+      setLoginError('Informe sua senha');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await login(email.trim(), password);
+      if (!response.data.token) {
+        throw new Error('O servidor não retornou um token de acesso');
+      }
+      await saveAuthToken(response.data.token);
+      router.replace('/(cliente)/dashboard');
+    } catch (error) {
+      setLoginError(getApiErrorMessage(error));
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -77,6 +99,7 @@ export default function LoginScreen() {
                 onChangeText={(t) => {
                   setEmail(t);
                   if (emailError) setEmailError('');
+                  if (loginError) setLoginError('');
                 }}
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -96,7 +119,10 @@ export default function LoginScreen() {
                 <TextInput
                   style={[styles.input, styles.inputPw]}
                   value={password}
-                  onChangeText={setPassword}
+                  onChangeText={(value) => {
+                    setPassword(value);
+                    if (loginError) setLoginError('');
+                  }}
                   secureTextEntry={!showPassword}
                   autoComplete="password"
                   placeholder="••••••••"
@@ -116,12 +142,17 @@ export default function LoginScreen() {
               </View>
             </View>
 
+            {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
+
             <TouchableOpacity
-              style={styles.btnPrimary}
+              style={[styles.btnPrimary, isSubmitting && styles.btnDisabled]}
               onPress={handleLogin}
+              disabled={isSubmitting}
               activeOpacity={0.85}
             >
-              <Text style={styles.btnPrimaryText}>Entrar</Text>
+              <Text style={styles.btnPrimaryText}>
+                {isSubmitting ? 'Entrando...' : 'Entrar'}
+              </Text>
             </TouchableOpacity>
 
             <Text style={styles.registerText}>
@@ -249,6 +280,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  btnDisabled: { opacity: 0.7 },
   btnPrimaryText: {
     fontFamily: Fonts.bold,
     fontSize: 15,

@@ -8,6 +8,7 @@ import { useRouter } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 import { Colors, Fonts, Radii, Shadow } from '@/constants/theme';
 import { CURRENT_USER, ini } from '@/constants/data';
+import { clearAuthToken, getApiErrorMessage } from '@/services/api';
 
 type TabKey = 'senha' | 'end' | 'tel';
 
@@ -76,7 +77,18 @@ export default function PerfilScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [tab, setTab] = useState<TabKey>('senha');
+  const [logoutError, setLogoutError] = useState('');
   const me = CURRENT_USER;
+
+  async function handleSignOut() {
+    setLogoutError('');
+    try {
+      await clearAuthToken();
+      router.replace('/');
+    } catch (error) {
+      setLogoutError(getApiErrorMessage(error));
+    }
+  }
 
   return (
     <ScrollView
@@ -222,12 +234,13 @@ export default function PerfilScreen() {
         {/* ── Botão sair ── */}
         <TouchableOpacity
           style={styles.btnOut}
-          onPress={() => router.replace('/')}
+          onPress={handleSignOut}
           activeOpacity={0.85}
         >
           <LogoutIcon />
           <Text style={styles.btnOutText}>Sair da conta</Text>
         </TouchableOpacity>
+        {logoutError ? <Text style={styles.errorText}>{logoutError}</Text> : null}
 
       </View>
     </ScrollView>
@@ -432,5 +445,10 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.bold,
     fontSize: 14,
     color: Colors.red,
+  },
+  errorText: {
+    fontFamily: Fonts.medium,
+    fontSize: 12,
+    color: Colors.err,
   },
 });
